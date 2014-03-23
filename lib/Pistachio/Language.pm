@@ -43,8 +43,10 @@ __END__
 
 =head1 SYNOPSIS
 
+L<lib-JBD|https://github.com/joeldalley/lib-JBD>
+
  # Get std_parse from lib-JBD:
- # L<https://github.com/joeldalley/lib-JBD>
+
  use JBD::JSON 'std_parse';
 
  # Define a Pistachio::Language object by specifying

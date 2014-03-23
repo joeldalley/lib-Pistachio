@@ -31,15 +31,19 @@ sub new {
     $ensure->($_, "$style_pkg doesn't export $_") for @import;
 
     ref $lang eq 'Pistachio::Language' or do { 
+        no strict 'refs';
+
         my $lang_pkg = "Pistachio::Css::${style}::${lang}";
-        eval { load $lang_pkg, 'token' };
+        eval { load $lang_pkg };
         croak "Language `$lang` isn't supported" if $@;
-        $ensure->('token', "$lang_pkg doesn't export token");
+        *token = *{"Pistachio::Css::${style}::${lang}::token"};
 
         eval {
             my $ns = 'Pistachio::Token';
-            load "${ns}::Constructor::${lang}", 'text_to_tokens';
-            load "${ns}::Transformer::${lang}", 'transform_rules';
+            load "${ns}::Constructor::${lang}";
+            load "${ns}::Transformer::${lang}";
+            *text_to_tokens  = *{"${ns}::Constructor::${lang}::text_to_tokens"};
+            *transform_rules = *{"${ns}::Transformer::${lang}::transform_rules"};
         };
         croak "Unsupported language `$lang`" if $@;
 

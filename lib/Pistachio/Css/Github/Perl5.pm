@@ -5,9 +5,6 @@ use strict;
 use warnings;
 # VERSION
 
-use JBD::Core::Exporter;
-our @EXPORT_OK = qw(token);
-
 # map Pistachio::Token type => css style
 my %type_to_style = (
     'ArrayIndex'              => 'color:#008080',
@@ -50,7 +47,7 @@ my %type_to_style = (
 
 # @param string $type    a Pistachio::Token type
 # @return string    the type's css, or an empty string
-sub token($) {
+sub token {
     my $type = shift or return '';
     $type_to_style{$type} || '';
 }

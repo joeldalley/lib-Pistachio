@@ -5,7 +5,7 @@ use strict;
 use warnings;
 # VERSION
 
-use JBD::Core::Exporter;
+use Exporter 'import';
 our @EXPORT_OK = qw(number_cell number_strip code_div);
 
 # @return string    css for the line count div

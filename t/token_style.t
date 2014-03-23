@@ -4,9 +4,12 @@ use warnings;
 use Test::More;
 
 BEGIN { 
-    use_ok('Pistachio::Css::Github::Perl5', qw(token));
+    use_ok('Pistachio::Css::Github::Perl5');
     use_ok('Pistachio::Tokenizer');
     use_ok('Pistachio::Html');
+
+    no strict 'refs';
+    *token = *Pistachio::Css::Github::Perl5::token;
 }
 
 my @tests = (

@@ -9,7 +9,7 @@ use Pistachio::Tokenizer;
 use Pistachio::Language;
 use Pistachio::Html;
 
-use JBD::Core::Exporter;
+use Exporter 'import';
 our @EXPORT_OK = qw(supported_languages supported_styles);
 
 my @languages = qw(

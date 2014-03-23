@@ -4,8 +4,10 @@ use warnings;
 use Test::More tests => 6;
 
 BEGIN {
-    use_ok('Pistachio::Css::Github::Perl5', 'token');
+    use_ok('Pistachio::Css::Github::Perl5');
     use_ok('Pistachio::Css::Github::Common', 'code_div');
+    no strict 'refs';
+    *token = *Pistachio::Css::Github::Perl5::token;
 }
 
 my $expect = "font-family:Consolas,'Liberation Mono',Courier,monospace;"

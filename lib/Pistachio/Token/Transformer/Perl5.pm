@@ -7,9 +7,6 @@ use warnings;
 
 use Pistachio::Token::Transformer::Rule;
 
-use JBD::Core::Exporter;
-our @EXPORT_OK = qw(transform_rules);
-
 # @return arrayref    Pistachio::Token::Transformer::Rules
 sub transform_rules {
     my @rules;

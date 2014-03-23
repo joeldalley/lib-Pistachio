@@ -5,7 +5,7 @@ use strict;
 use warnings;
 # VERSION
 
-use JBD::Core::Exporter;
+use Exporter 'import';
 our @EXPORT_OK = qw(is_keyword);
 
 # keywords

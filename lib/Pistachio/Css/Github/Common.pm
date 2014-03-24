@@ -5,11 +5,10 @@ use strict;
 use warnings;
 # VERSION
 
-use Exporter 'import';
-our @EXPORT_OK = qw(number_cell number_strip code_div);
+sub new { bless \__PACKAGE__, __PACKAGE__ }
 
 # @return string    css for the line count div
-sub number_strip() {
+sub number_strip {
     my @style = (
         "font-family:Consolas,'Liberation Mono',Courier,monospace",
         'float:left',
@@ -20,7 +19,7 @@ sub number_strip() {
 }
 
 # @return string    css for a single line count number cell
-sub number_cell() {
+sub number_cell {
     my @style = (
         'font-size:13px',
         'color:#999988',
@@ -36,7 +35,7 @@ sub number_cell() {
 }
 
 # @return string    css for the div containing source code token spans
-sub code_div() {
+sub code_div {
     my @style = (
         "font-family:Consolas,'Liberation Mono',Courier,monospace",
         'padding:0 8px 0 11px',

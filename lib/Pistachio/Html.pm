@@ -5,8 +5,8 @@ use strict;
 use warnings;
 # VERSION
 
-use Pistachio::Language;
 use Pistachio::Tokenizer;
+use Pistachio::Language;
 use HTML::Entities;
 use Module::Load;
 use Carp 'croak';
@@ -17,6 +17,7 @@ use Carp 'croak';
 # @param string $style Style, e.g., 'Github'.
 # @return Pistachio::Html
 sub new {
+    no strict 'refs';
     my $type = shift;
     my ($lang, $style) = (shift || '', shift || '');
 
@@ -24,15 +25,18 @@ sub new {
     my $ensure = sub {croak $_[1] if !__PACKAGE__->can($_[0])};
 
     # Common css package.
+    #use Pistachio::Css::Github::Common;
     my $style_pkg = "Pistachio::Css::${style}::Common";
-    my @import = qw(number_cell number_strip code_div);
-    eval { load $style_pkg, @import }; 
-    croak "Style `$style` isn't supported" if $@;
-    $ensure->($_, "$style_pkg doesn't export $_") for @import;
+    (my $file = $style_pkg) =~ s{::}{/}g;
+    require "$file.pm";
+    #eval { load $style_pkg };
+    #croak "Style `$style` not supported" if $@;
+    #my $common_css = $style_pkg->new;
+    my $common_css = $style_pkg->new;
 
+    # Attempt onstruct a Pistachio::Lanauage, if not given one.
+    # Note that currently only Perl5 has baked-in support.
     ref $lang eq 'Pistachio::Language' or do { 
-        no strict 'refs';
-
         my $lang_pkg = "Pistachio::Css::${style}::${lang}";
         eval { load $lang_pkg };
         croak "Language `$lang` isn't supported" if $@;
@@ -55,12 +59,16 @@ sub new {
         );
     };
 
-    bless [$lang], $type;
+    bless [$lang, $common_css], $type;
 }
 
 # @param Pistachio::Html $this
 # @return A Pistachio::Language
 sub lang { shift->[0] }
+
+# @param Pistachio::Html $this
+# @return Pistachio::Css::x::Common Where x is the given style.
+sub css { shift->[1] }
 
 # @param Pistachio::Html $this
 # @param scalarref $text    source code text
@@ -71,10 +79,10 @@ sub snippet {
     NUMBER_STRIP: my $num_strip = do {
         my @nums = 1 .. @{[split /\n/, $$text]};
         my $spec = '<div style="%s">%d</div>';
-        my @divs = map sprintf($spec, &number_cell, $_), @nums;
+        my @divs = map sprintf($spec, $this->css->number_cell, $_), @nums;
 
         $spec = qq{<div style="%s">\n%s\n</div>\n};
-        sprintf $spec, &number_strip, "@divs";
+        sprintf $spec, $this->css->number_strip, "@divs";
     };
 
     CODE_DIV: my $code_div = do {
@@ -88,7 +96,7 @@ sub snippet {
                             : qq|<span>$val</span>|;
         }
 
-        sprintf qq{<div style="%s">%s</div>}, &code_div, $code;
+        sprintf qq{<div style="%s">%s</div>}, $this->css->code_div, $code;
     };
 
     join "\n", '<div>', $num_strip, $code_div, '</div>',

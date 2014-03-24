@@ -5,16 +5,17 @@ use Test::More tests => 6;
 
 BEGIN {
     use_ok('Pistachio::Css::Github::Perl5');
-    use_ok('Pistachio::Css::Github::Common', 'code_div');
+    use_ok('Pistachio::Css::Github::Common');
     no strict 'refs';
     *token = *Pistachio::Css::Github::Perl5::token;
 }
 
+my $css = Pistachio::Css::Github::Common->new;
 my $expect = "font-family:Consolas,'Liberation Mono',Courier,monospace;"
            . 'padding:0 8px 0 11px;white-space:pre;font-size:13px;'
            . 'line-height:18px;float:left';
 
-ok(&code_div eq $expect, 
+ok($css->code_div eq $expect, 
    'Pistachio::Css::Style::Github::code_div() returns expected string');
 
 my %expect = (

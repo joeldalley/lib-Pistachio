@@ -50,6 +50,6 @@ my %type_to_style = (
 
 # @param string $type    a Pistachio::Token type
 # @return string    the type's css, or an empty string
-sub type_to_style { use Data::Dumper;print Dumper \@_;$type_to_style{$_[0] || ''} || '' }
+sub type_to_style { $type_to_style{$_[0] || ''} || '' }
 
 1;

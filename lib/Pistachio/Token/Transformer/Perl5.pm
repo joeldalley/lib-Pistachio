@@ -6,6 +6,8 @@ use warnings;
 # VERSION
 
 use Pistachio::Token::Transformer::Rule;
+use Exporter 'import';
+our @EXPORT_OK = 'transform_rules';
 
 # @return arrayref    Pistachio::Token::Transformer::Rules
 sub transform_rules {

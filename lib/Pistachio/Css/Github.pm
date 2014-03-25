@@ -1,12 +1,19 @@
-package Pistachio::Css::Github::Common;
-# ABSTRACT: provides number_strip(), number_cell() and code_div()
+package Pistachio::Css::Github;
+# ABSTRACT: provides methods which return CSS definitions, for a Github-like styling
 
 use strict;
 use warnings;
 # VERSION
 
-sub new { bless \__PACKAGE__, __PACKAGE__ }
 
+# @param string $type Object type.
+# @return Pistachio::Css::Github
+sub new { 
+    my $type = shift;
+    bless \$type, $type;
+}
+
+# @param Pistachio::Css::Github
 # @return string    css for the line count div
 sub number_strip {
     my @style = (
@@ -18,6 +25,7 @@ sub number_strip {
     join ';', @style;
 }
 
+# @param Pistachio::Css::Github
 # @return string    css for a single line count number cell
 sub number_cell {
     my @style = (
@@ -34,6 +42,7 @@ sub number_cell {
     join ';', @style;
 }
 
+# @param Pistachio::Css::Github
 # @return string    css for the div containing source code token spans
 sub code_div {
     my @style = (

@@ -14,7 +14,7 @@ sub new {
     bless [
         $lang, 
         $subs{tokens},
-        $subs{css},
+        $subs{type_to_style},
         $subs{transform_rules} || sub {[]}
         ], $type;
 }
@@ -29,9 +29,9 @@ sub language { my $this = shift; $this->[0] }
 sub tokens { my $this = shift; $this->[1]->(shift) }
 
 # @param Pistachio::Language $this
-# @param string A token type.
-# @return string The CSS for the given type, or empty string.
-sub css { my $this = shift; $this->[2]->(shift) }
+# @param string A Pistachio::Token type.
+# @return string CSS style definition, per token type.
+sub type_to_style { my $this = shift; $this->[2]->(shift) }
 
 # @param Pistachio::Language $this
 # @return arrayref Transform rules (possibly empty).

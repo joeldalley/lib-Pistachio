@@ -4,12 +4,9 @@ use warnings;
 use Test::More;
 
 BEGIN { 
-    use_ok('Pistachio::Css::Github::Perl5');
+    use_ok('Pistachio::Css::Github::Perl5', 'type_to_style');
     use_ok('Pistachio::Tokenizer');
     use_ok('Pistachio::Html');
-
-    no strict 'refs';
-    *token = *Pistachio::Css::Github::Perl5::token;
 }
 
 my @tests = (
@@ -29,11 +26,11 @@ TEST: for my $test (@tests) {
 
     while ($_ = $it->()) {
         my $msg = "TEST: "
-                . "($expected_style, " . token($_->type) . ") "
+                . "($expected_style, " . type_to_style($_->type) . ") "
                 . "{$expected_type, ${\$_->type}}";
         $token_pos == $expected_pos && do {
             my $passed = $expected_type eq $_->type 
-                      && $expected_style eq token $_->type;
+                      && $expected_style eq type_to_style $_->type;
             ok($passed, $msg);
             next TEST;
         };

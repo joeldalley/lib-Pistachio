@@ -9,6 +9,9 @@ use Pistachio::Keywords::Perl5 'is_keyword';
 use Pistachio::Token;
 use PPI::Tokenizer;
 
+use Exporter 'import';
+our @EXPORT_OK = 'text_to_tokens';
+
 # @param scalarref    reference to text
 # @return arrayref    Pistachio::Token array
 sub text_to_tokens {
